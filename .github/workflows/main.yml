@@ -1,8 +1,12 @@
-name: Main full build
+name: Main full build (push, weekly)
 
 on:
   push:
     branches: [ "main" ]
+  schedule:
+    # build weekly to keep buildability
+    # delay 20 minutes to avoid resource congestion for GitHub runners
+    - cron: "20 0 * * 0"
 
 env:
   CARGO_TERM_COLOR: always
