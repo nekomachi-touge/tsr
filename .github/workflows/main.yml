@@ -34,4 +34,4 @@ jobs:
     - name: Build
       run: cargo build -r ${CARGO_COMMON_ARGUMENTS}
     - name: Test
-      run: cargo test -r ${CARGO_COMMON_ARGUMENTS}   
+      run: cargo test -r ${CARGO_COMMON_ARGUMENTS}
