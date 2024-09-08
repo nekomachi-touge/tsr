@@ -1,0 +1,37 @@
+name: Main full build
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_COMMON_ARGUMENTS: --verbose --future-incompat-report --workspace --all-targets
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Format check
+      run: cargo fmt -- --verbose --check
+    - name: Static analysis
+      run: cargo clippy
+  test-dev:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build ${CARGO_COMMON_ARGUMENTS}
+    - name: Test
+      run: cargo test ${CARGO_COMMON_ARGUMENTS}
+  test-release:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build -r ${CARGO_COMMON_ARGUMENTS}
+    - name: Test
+      run: cargo test -r ${CARGO_COMMON_ARGUMENTS}   
